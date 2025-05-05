@@ -1,0 +1,138 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/type/type",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
+			"path": "pages/announce/announce",
+			"style": {	
+				"navigationBarTitleText": "公示"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/my/edit-profile",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		},
+		{
+			"path": "pages/project/detail",
+			"style": {
+				"navigationBarTitleText": "项目详情"
+			}
+		},
+		{
+			"path": "pages/project/application",
+			"style": {
+				"navigationBarTitleText": "项目申报"
+			}
+		},
+		{
+			"path": "pages/my/chat-list",
+			"style": {
+				"navigationBarTitleText": "沟通列表"
+			}
+		},
+		{
+			"path": "pages/my/chat",
+			"style": {
+				"navigationBarTitleText": "沟通"
+			}
+		},
+		{
+			"path": "pages/my/project-applications",
+			"style": {
+				"navigationBarTitleText": "项目信息"
+			}
+		},
+		{
+			"path": "pages/my/project-detail",
+			"style": {
+				"navigationBarTitleText": "项目详情"
+			}
+		},
+		{
+			"path": "pages/my/review-results",
+			"style": {
+				"navigationBarTitleText": "评审结果"
+			}
+		},
+		{
+			"path": "pages/my/review-detail",
+			"style": {
+				"navigationBarTitleText": "评审详情"
+			}
+		},
+		{
+			"path": "pages/announce/project-detail",
+			"style": {
+				"navigationBarTitleText": "评审详情"
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "项目搜索"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "项目评审系统",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#409eff",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/type/type",
+				"text": "分类",
+				"iconPath": "static/tabbar/type.png",
+				"selectedIconPath": "static/tabbar/type-active.png"
+			},
+			{
+				"pagePath": "pages/announce/announce",
+				"text": "公示",
+				"iconPath": "static/tabbar/announce.png",
+				"selectedIconPath": "static/tabbar/announce-active.png"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"text": "我的",
+				"iconPath": "static/tabbar/my.png",
+				"selectedIconPath": "static/tabbar/my-active.png"
+			}
+		]
+	}
+}

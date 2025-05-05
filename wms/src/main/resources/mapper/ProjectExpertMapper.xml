@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cen.mapper.ProjectExpertMapper">
+
+    <!-- 批量插入项目专家关联数据 -->
+    <insert id="insertBatchProjectExperts" parameterType="java.util.List">
+        insert into project_expert(project_id, expert_id, create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.projectId}, #{item.expertId}, #{item.createTime})
+        </foreach>
+    </insert>
+
+</mapper> 
