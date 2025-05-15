@@ -157,19 +157,20 @@ public class ExpertReviewServiceImpl extends ServiceImpl<ExpertReviewMapper, Exp
     private int calculateTotalScore(ExpertReview review) {
         int totalScore = 0;
         
-        // 技术评审
-        totalScore += review.getTechnicalFeasibilityScore() != null ? review.getTechnicalFeasibilityScore() : 0; // 最高20分
-        totalScore += review.getInnovationScore() != null ? review.getInnovationScore() : 0; // 最高15分
-        totalScore += review.getMaturityScore() != null ? review.getMaturityScore() : 0; // 最高15分
-        
         // 商务评审
-        totalScore += review.getBudgetReasonabilityScore() != null ? review.getBudgetReasonabilityScore() : 0; // 最高15分
-        totalScore += review.getCostBenefitScore() != null ? review.getCostBenefitScore() : 0; // 最高15分
-        totalScore += review.getContractTermsScore() != null ? review.getContractTermsScore() : 0; // 最高10分
+        totalScore += review.getEnterpriseQualificationScore() != null ? review.getEnterpriseQualificationScore() : 0; // 最高10分
+        totalScore += review.getFinancialStatusScore() != null ? review.getFinancialStatusScore() : 0; // 最高5分
+        totalScore += review.getPerformanceCaseScore() != null ? review.getPerformanceCaseScore() : 0; // 最高10分
+        totalScore += review.getPerformanceCapabilityScore() != null ? review.getPerformanceCapabilityScore() : 0; // 最高5分
         
-        // 风险与合规评审
-        totalScore += review.getRiskIdentificationScore() != null ? review.getRiskIdentificationScore() : 0; // 最高10分
-        totalScore += review.getComplianceScore() != null ? review.getComplianceScore() : 0; // 最高10分
+        // 技术评审
+        totalScore += review.getTechnicalResponseScore() != null ? review.getTechnicalResponseScore() : 0; // 最高10分
+        totalScore += review.getImplementationPlanScore() != null ? review.getImplementationPlanScore() : 0; // 最高15分
+        totalScore += review.getQualityAssuranceScore() != null ? review.getQualityAssuranceScore() : 0; // 最高10分
+        totalScore += review.getAfterSaleServiceScore() != null ? review.getAfterSaleServiceScore() : 0; // 最高5分
+        
+        // 价格评分
+        totalScore += review.getPriceScore() != null ? review.getPriceScore() : 0; // 最高30分
         
         return totalScore; // 总分100分
     }
@@ -192,37 +193,42 @@ public class ExpertReviewServiceImpl extends ServiceImpl<ExpertReviewMapper, Exp
         
         // 计算总评分和各项评分的平均值
         int totalScore = 0;
-        int technicalFeasibilityScoreSum = 0;
-        int innovationScoreSum = 0;
-        int maturityScoreSum = 0;
-        int budgetReasonabilityScoreSum = 0;
-        int costBenefitScoreSum = 0;
-        int contractTermsScoreSum = 0;
-        int riskIdentificationScoreSum = 0;
-        int complianceScoreSum = 0;
+        // 商务评审
+        int enterpriseQualificationScoreSum = 0;
+        int financialStatusScoreSum = 0;
+        int performanceCaseScoreSum = 0;
+        int performanceCapabilityScoreSum = 0;
+        // 技术评审
+        int technicalResponseScoreSum = 0;
+        int implementationPlanScoreSum = 0;
+        int qualityAssuranceScoreSum = 0;
+        int afterSaleServiceScoreSum = 0;
+        // 价格评分
+        int priceScoreSum = 0;
         
         // 收集评审意见
         StringBuilder technicalCommentBuilder = new StringBuilder();
         StringBuilder businessCommentBuilder = new StringBuilder();
-        StringBuilder riskCommentBuilder = new StringBuilder();
+        StringBuilder priceCommentBuilder = new StringBuilder();
         
         for (ExpertReview review : reviews) {
             // 累加各项分数
             totalScore += review.getTotalScore() != null ? review.getTotalScore() : 0;
             
-            // 技术评审
-            technicalFeasibilityScoreSum += review.getTechnicalFeasibilityScore() != null ? review.getTechnicalFeasibilityScore() : 0;
-            innovationScoreSum += review.getInnovationScore() != null ? review.getInnovationScore() : 0;
-            maturityScoreSum += review.getMaturityScore() != null ? review.getMaturityScore() : 0;
-            
             // 商务评审
-            budgetReasonabilityScoreSum += review.getBudgetReasonabilityScore() != null ? review.getBudgetReasonabilityScore() : 0;
-            costBenefitScoreSum += review.getCostBenefitScore() != null ? review.getCostBenefitScore() : 0;
-            contractTermsScoreSum += review.getContractTermsScore() != null ? review.getContractTermsScore() : 0;
+            enterpriseQualificationScoreSum += review.getEnterpriseQualificationScore() != null ? review.getEnterpriseQualificationScore() : 0;
+            financialStatusScoreSum += review.getFinancialStatusScore() != null ? review.getFinancialStatusScore() : 0;
+            performanceCaseScoreSum += review.getPerformanceCaseScore() != null ? review.getPerformanceCaseScore() : 0;
+            performanceCapabilityScoreSum += review.getPerformanceCapabilityScore() != null ? review.getPerformanceCapabilityScore() : 0;
             
-            // 风险与合规评审
-            riskIdentificationScoreSum += review.getRiskIdentificationScore() != null ? review.getRiskIdentificationScore() : 0;
-            complianceScoreSum += review.getComplianceScore() != null ? review.getComplianceScore() : 0;
+            // 技术评审
+            technicalResponseScoreSum += review.getTechnicalResponseScore() != null ? review.getTechnicalResponseScore() : 0;
+            implementationPlanScoreSum += review.getImplementationPlanScore() != null ? review.getImplementationPlanScore() : 0;
+            qualityAssuranceScoreSum += review.getQualityAssuranceScore() != null ? review.getQualityAssuranceScore() : 0;
+            afterSaleServiceScoreSum += review.getAfterSaleServiceScore() != null ? review.getAfterSaleServiceScore() : 0;
+            
+            // 价格评分
+            priceScoreSum += review.getPriceScore() != null ? review.getPriceScore() : 0;
             
             // 收集评审备注
             if (review.getTechnicalRemarks() != null && !review.getTechnicalRemarks().isEmpty()) {
@@ -239,11 +245,11 @@ public class ExpertReviewServiceImpl extends ServiceImpl<ExpertReviewMapper, Exp
                 businessCommentBuilder.append(review.getBusinessRemarks());
             }
             
-            if (review.getRiskComplianceRemarks() != null && !review.getRiskComplianceRemarks().isEmpty()) {
-                if (riskCommentBuilder.length() > 0) {
-                    riskCommentBuilder.append("\n");
+            if (review.getPriceRemarks() != null && !review.getPriceRemarks().isEmpty()) {
+                if (priceCommentBuilder.length() > 0) {
+                    priceCommentBuilder.append("\n");
                 }
-                riskCommentBuilder.append(review.getRiskComplianceRemarks());
+                priceCommentBuilder.append(review.getPriceRemarks());
             }
         }
         
@@ -252,19 +258,23 @@ public class ExpertReviewServiceImpl extends ServiceImpl<ExpertReviewMapper, Exp
         double averageScore = reviewCount > 0 ? (double) totalScore / reviewCount : 0;
         
         // 计算各项评分的平均值
-        int technicalFeasibilityScore = reviewCount > 0 ? Math.round((float) technicalFeasibilityScoreSum / reviewCount) : 0;
-        int innovationScore = reviewCount > 0 ? Math.round((float) innovationScoreSum / reviewCount) : 0;
-        int maturityScore = reviewCount > 0 ? Math.round((float) maturityScoreSum / reviewCount) : 0;
-        int budgetReasonabilityScore = reviewCount > 0 ? Math.round((float) budgetReasonabilityScoreSum / reviewCount) : 0;
-        int costBenefitScore = reviewCount > 0 ? Math.round((float) costBenefitScoreSum / reviewCount) : 0;
-        int contractTermsScore = reviewCount > 0 ? Math.round((float) contractTermsScoreSum / reviewCount) : 0;
-        int riskIdentificationScore = reviewCount > 0 ? Math.round((float) riskIdentificationScoreSum / reviewCount) : 0;
-        int complianceScore = reviewCount > 0 ? Math.round((float) complianceScoreSum / reviewCount) : 0;
+        // 商务评审
+        int enterpriseQualificationScore = reviewCount > 0 ? Math.round((float) enterpriseQualificationScoreSum / reviewCount) : 0;
+        int financialStatusScore = reviewCount > 0 ? Math.round((float) financialStatusScoreSum / reviewCount) : 0;
+        int performanceCaseScore = reviewCount > 0 ? Math.round((float) performanceCaseScoreSum / reviewCount) : 0;
+        int performanceCapabilityScore = reviewCount > 0 ? Math.round((float) performanceCapabilityScoreSum / reviewCount) : 0;
+        // 技术评审
+        int technicalResponseScore = reviewCount > 0 ? Math.round((float) technicalResponseScoreSum / reviewCount) : 0;
+        int implementationPlanScore = reviewCount > 0 ? Math.round((float) implementationPlanScoreSum / reviewCount) : 0;
+        int qualityAssuranceScore = reviewCount > 0 ? Math.round((float) qualityAssuranceScoreSum / reviewCount) : 0;
+        int afterSaleServiceScore = reviewCount > 0 ? Math.round((float) afterSaleServiceScoreSum / reviewCount) : 0;
+        // 价格评分
+        int priceScore = reviewCount > 0 ? Math.round((float) priceScoreSum / reviewCount) : 0;
         
         // 评审备注
         String technicalComment = technicalCommentBuilder.toString();
         String businessComment = businessCommentBuilder.toString();
-        String riskComment = riskCommentBuilder.toString();
+        String priceComment = priceCommentBuilder.toString();
         
         // 构建结果对象
         Map<String, Object> result = new HashMap<>();
@@ -272,19 +282,23 @@ public class ExpertReviewServiceImpl extends ServiceImpl<ExpertReviewMapper, Exp
         result.put("reviewCount", reviewCount);
         
         // 添加各项评分
-        result.put("technicalFeasibilityScore", technicalFeasibilityScore);
-        result.put("innovationScore", innovationScore);
-        result.put("maturityScore", maturityScore);
-        result.put("budgetReasonabilityScore", budgetReasonabilityScore);
-        result.put("costBenefitScore", costBenefitScore);
-        result.put("contractTermsScore", contractTermsScore);
-        result.put("riskIdentificationScore", riskIdentificationScore);
-        result.put("complianceScore", complianceScore);
+        // 商务评审
+        result.put("enterpriseQualificationScore", enterpriseQualificationScore);
+        result.put("financialStatusScore", financialStatusScore);
+        result.put("performanceCaseScore", performanceCaseScore);
+        result.put("performanceCapabilityScore", performanceCapabilityScore);
+        // 技术评审
+        result.put("technicalResponseScore", technicalResponseScore);
+        result.put("implementationPlanScore", implementationPlanScore);
+        result.put("qualityAssuranceScore", qualityAssuranceScore);
+        result.put("afterSaleServiceScore", afterSaleServiceScore);
+        // 价格评分
+        result.put("priceScore", priceScore);
         
         // 添加评审备注
         result.put("technicalComment", technicalComment);
         result.put("businessComment", businessComment);
-        result.put("riskComment", riskComment);
+        result.put("priceComment", priceComment);
         
         // 项目评审结论
         // 根据总分判断评审结论

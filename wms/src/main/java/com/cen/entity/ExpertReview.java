@@ -38,39 +38,24 @@ public class ExpertReview {
     private Long expertId;
 
     /**
-     * 技术可行性得分
+     * 企业资质得分
      */
-    private Integer technicalFeasibilityScore;
+    private Integer enterpriseQualificationScore;
 
     /**
-     * 创新性得分
+     * 财务情况得分
      */
-    private Integer innovationScore;
+    private Integer financialStatusScore;
 
     /**
-     * 成熟度得分
+     * 业绩案例得分
      */
-    private Integer maturityScore;
+    private Integer performanceCaseScore;
 
     /**
-     * 技术评审备注
+     * 履约能力得分
      */
-    private String technicalRemarks;
-
-    /**
-     * 预算合理性得分
-     */
-    private Integer budgetReasonabilityScore;
-
-    /**
-     * 成本效益得分
-     */
-    private Integer costBenefitScore;
-
-    /**
-     * 合同条款得分
-     */
-    private Integer contractTermsScore;
+    private Integer performanceCapabilityScore;
 
     /**
      * 商务评审备注
@@ -78,19 +63,39 @@ public class ExpertReview {
     private String businessRemarks;
 
     /**
-     * 风险识别得分
+     * 技术方案响应性得分
      */
-    private Integer riskIdentificationScore;
+    private Integer technicalResponseScore;
 
     /**
-     * 合规性得分
+     * 实施方案得分
      */
-    private Integer complianceScore;
+    private Integer implementationPlanScore;
 
     /**
-     * 风险与合规评审备注
+     * 质量保障措施得分
      */
-    private String riskComplianceRemarks;
+    private Integer qualityAssuranceScore;
+
+    /**
+     * 售后服务得分
+     */
+    private Integer afterSaleServiceScore;
+
+    /**
+     * 技术评审备注
+     */
+    private String technicalRemarks;
+
+    /**
+     * 价格评分
+     */
+    private Integer priceScore;
+
+    /**
+     * 价格评审备注
+     */
+    private String priceRemarks;
 
     /**
      * 总分

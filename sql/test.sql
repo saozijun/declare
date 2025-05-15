@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : l2
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 80036
+ Source Server Version : 80039
  Source Host           : localhost:3306
- Source Schema         : declare
+ Source Schema         : test
 
  Target Server Type    : MySQL
- Target Server Version : 80036
+ Target Server Version : 80039
  File Encoding         : 65001
 
- Date: 02/05/2025 16:30:26
+ Date: 15/05/2025 09:40:34
 */
 
 SET NAMES utf8mb4;
@@ -27,11 +27,11 @@ CREATE TABLE `chat_message`  (
   `receiver_id` bigint NOT NULL COMMENT '接收者ID',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '消息内容',
   `is_read` tinyint(1) NULL DEFAULT 0 COMMENT '是否已读',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_sender_receiver`(`sender_id`, `receiver_id`) USING BTREE,
-  INDEX `idx_receiver_read`(`receiver_id`, `is_read`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '聊天消息表' ROW_FORMAT = Dynamic;
+  INDEX `idx_sender_receiver`(`sender_id` ASC, `receiver_id` ASC) USING BTREE,
+  INDEX `idx_receiver_read`(`receiver_id` ASC, `is_read` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '聊天消息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of chat_message
@@ -60,9 +60,9 @@ CREATE TABLE `expert`  (
   `achievements` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '审核中',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `user_id`(`user_id`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
   CONSTRAINT `expert_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of expert
@@ -80,20 +80,16 @@ CREATE TABLE `expert_assignment`  (
   `application_id` bigint NOT NULL COMMENT '项目申报ID',
   `expert_id` bigint NOT NULL COMMENT '专家用户ID',
   `status` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '分配状态：0-待评审 1-已评审',
-  `assign_time` datetime(0) NULL DEFAULT NULL COMMENT '分配时间',
-  `review_time` datetime(0) NULL DEFAULT NULL COMMENT '评审完成时间',
+  `assign_time` datetime NULL DEFAULT NULL COMMENT '分配时间',
+  `review_time` datetime NULL DEFAULT NULL COMMENT '评审完成时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_application_id`(`application_id`) USING BTREE,
-  INDEX `idx_expert_id`(`expert_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  INDEX `idx_application_id`(`application_id` ASC) USING BTREE,
+  INDEX `idx_expert_id`(`expert_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of expert_assignment
 -- ----------------------------
-INSERT INTO `expert_assignment` VALUES (1, 6, 2, '1', '2025-05-01 18:56:01', '2025-05-01 19:46:18');
-INSERT INTO `expert_assignment` VALUES (2, 7, 2, '1', '2025-05-01 23:21:56', '2025-05-01 23:35:24');
-INSERT INTO `expert_assignment` VALUES (3, 7, 25, '1', '2025-05-01 23:21:56', '2025-05-02 00:29:11');
-INSERT INTO `expert_assignment` VALUES (4, 8, 25, '1', '2025-05-02 16:10:43', '2025-05-02 16:11:56');
 
 -- ----------------------------
 -- Table structure for expert_review
@@ -104,33 +100,30 @@ CREATE TABLE `expert_review`  (
   `assignment_id` bigint NOT NULL COMMENT '专家分配ID',
   `application_id` bigint NOT NULL COMMENT '项目申报ID',
   `expert_id` bigint NOT NULL COMMENT '专家用户ID',
-  `technical_feasibility_score` int NULL DEFAULT 0 COMMENT '技术可行性得分(20分)',
-  `innovation_score` int NULL DEFAULT 0 COMMENT '创新性得分(15分)',
-  `maturity_score` int NULL DEFAULT 0 COMMENT '成熟度得分(15分)',
   `technical_remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '技术评审备注',
-  `budget_reasonability_score` int NULL DEFAULT 0 COMMENT '预算合理性得分(15分)',
-  `cost_benefit_score` int NULL DEFAULT 0 COMMENT '成本效益得分(15分)',
-  `contract_terms_score` int NULL DEFAULT 0 COMMENT '合同条款得分(10分)',
   `business_remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商务评审备注',
-  `risk_identification_score` int NULL DEFAULT 0 COMMENT '风险识别得分(10分)',
-  `compliance_score` int NULL DEFAULT 0 COMMENT '合规性得分(10分)',
-  `risk_compliance_remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '风险与合规评审备注',
   `total_score` int NULL DEFAULT 0 COMMENT '总分',
-  `review_time` datetime(0) NULL DEFAULT NULL COMMENT '评审时间',
+  `review_time` datetime NULL DEFAULT NULL COMMENT '评审时间',
   `status` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '评审状态：0-草稿 1-已提交',
+  `enterprise_qualification_score` int NULL DEFAULT NULL COMMENT '企业资质得分',
+  `financial_status_score` int NULL DEFAULT NULL COMMENT '财务情况得分',
+  `performance_case_score` int NULL DEFAULT NULL COMMENT '业绩案例得分',
+  `performance_capability_score` int NULL DEFAULT NULL COMMENT '履约能力得分',
+  `technical_response_score` int NULL DEFAULT NULL COMMENT '技术方案响应性得分',
+  `implementation_plan_score` int NULL DEFAULT NULL COMMENT '实施方案得分',
+  `quality_assurance_score` int NULL DEFAULT NULL COMMENT '质量保障措施得分',
+  `after_sale_service_score` int NULL DEFAULT NULL COMMENT '售后服务得分',
+  `price_score` int NULL DEFAULT NULL COMMENT '价格评分',
+  `price_remarks` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '价格评审备注',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_assignment_id`(`assignment_id`) USING BTREE,
-  INDEX `idx_application_id`(`application_id`) USING BTREE,
-  INDEX `idx_expert_id`(`expert_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  INDEX `idx_assignment_id`(`assignment_id` ASC) USING BTREE,
+  INDEX `idx_application_id`(`application_id` ASC) USING BTREE,
+  INDEX `idx_expert_id`(`expert_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '专家评审表 - 更新于2025-07' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of expert_review
 -- ----------------------------
-INSERT INTO `expert_review` VALUES (1, 1, 6, 2, 5, 7, 11, '66', 8, 12, 3, '嘎嘎', 7, 7, 'ag ', 60, '2025-05-01 19:46:18', '1');
-INSERT INTO `expert_review` VALUES (2, 2, 7, 2, 17, 15, 15, '很好', 15, 15, 10, '拉满了', 9, 9, '非常不错', 105, '2025-05-01 23:35:24', '1');
-INSERT INTO `expert_review` VALUES (5, 3, 7, 25, 17, 12, 13, '好', 11, 12, 9, '可以', 8, 8, '还好', 90, '2025-05-02 00:29:11', '1');
-INSERT INTO `expert_review` VALUES (6, 4, 8, 25, 12, 7, 13, '', 12, 11, 9, '', 8, 10, '', 82, '2025-05-02 16:11:56', '1');
 
 -- ----------------------------
 -- Table structure for project
@@ -143,17 +136,17 @@ CREATE TABLE `project`  (
   `category_id` bigint NULL DEFAULT NULL COMMENT '分类ID',
   `user_id` bigint NULL DEFAULT NULL COMMENT '用户ID',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '项目状态：0-待发布，1-已发布',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `leader` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '负责人',
   `contact` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '联系方式',
   `start_date` date NULL DEFAULT NULL COMMENT '开始日期',
   `end_date` date NULL DEFAULT NULL COMMENT '结束日期',
   `budget` decimal(12, 2) NULL DEFAULT NULL COMMENT '项目预算',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_category_id`(`category_id`) USING BTREE,
-  INDEX `idx_user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目表' ROW_FORMAT = Dynamic;
+  INDEX `idx_category_id`(`category_id` ASC) USING BTREE,
+  INDEX `idx_user_id`(`user_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of project
@@ -194,19 +187,19 @@ CREATE TABLE `project_application`  (
   `expected_results` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '预期成果',
   `risk_identification` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '风险识别',
   `economic_benefits` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '经济效益',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_project_id`(`project_id`) USING BTREE,
-  INDEX `idx_user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目申报表' ROW_FORMAT = Dynamic;
+  INDEX `idx_project_id`(`project_id` ASC) USING BTREE,
+  INDEX `idx_user_id`(`user_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目申报表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of project_application
 -- ----------------------------
-INSERT INTO `project_application` VALUES (6, 1, 23, '4', '123', '456', '456', '456', 456.00, '456', '456', '456', '456', '2025-05-01 17:30:50', '2025-05-01 17:56:32');
-INSERT INTO `project_application` VALUES (7, 1, 24, '4', '123', 'shenbaodanwei', 'fuzeren', '5个月左右', 5000.00, '我的技术方案是', '预期很高', '一般般', '经济效益啊', '2025-05-01 23:17:33', '2025-05-01 23:19:41');
-INSERT INTO `project_application` VALUES (8, 18, 23, '4', '智能社区安防系统', '111', 'xcv', '3', 16542.00, '111', '111', '111', '111', '2025-05-02 16:09:47', '2025-05-02 16:10:28');
+INSERT INTO `project_application` VALUES (6, 1, 23, '1', '123', '456', '456', '456', 456.00, '456', '456', '456', '456', '2025-05-01 17:30:50', '2025-05-01 17:56:32');
+INSERT INTO `project_application` VALUES (7, 1, 24, '1', '123', 'shenbaodanwei', 'fuzeren', '5个月左右', 5000.00, '我的技术方案是', '预期很高', '一般般', '经济效益啊', '2025-05-01 23:17:33', '2025-05-01 23:19:41');
+INSERT INTO `project_application` VALUES (8, 18, 23, '1', '智能社区安防系统', '111', 'xcv', '3', 16542.00, '111', '111', '111', '111', '2025-05-02 16:09:47', '2025-05-02 16:10:28');
 
 -- ----------------------------
 -- Table structure for project_category
@@ -216,10 +209,10 @@ CREATE TABLE `project_category`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
   `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '分类描述',
-  `create_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of project_category
@@ -244,12 +237,12 @@ CREATE TABLE `project_expert`  (
   `review` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评价内容',
   `score` int NULL DEFAULT NULL COMMENT '评分',
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '评审状态：0-未评审，1-已评审',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_project_id`(`project_id`) USING BTREE,
-  INDEX `idx_expert_id`(`expert_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目专家关联表' ROW_FORMAT = Dynamic;
+  INDEX `idx_project_id`(`project_id` ASC) USING BTREE,
+  INDEX `idx_expert_id`(`expert_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '项目专家关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of project_expert
@@ -264,7 +257,7 @@ CREATE TABLE `sys_banner`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_banner
@@ -284,11 +277,11 @@ CREATE TABLE `sys_file`  (
   `md5` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文件md5',
   `size` bigint NULL DEFAULT NULL COMMENT '文件大小',
   `enable` tinyint NULL DEFAULT 1 COMMENT '是否禁用(1-启用, 1-禁用)',
-  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_deleted` tinyint NOT NULL DEFAULT 0 COMMENT '是否删除(0-未删, 1-已删)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文件上传的列表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 194 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文件上传的列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_file
@@ -315,7 +308,7 @@ CREATE TABLE `sys_role`  (
   `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
   `flag` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '唯一标识',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -339,8 +332,8 @@ CREATE TABLE `sys_user`  (
   `status` tinyint NULL DEFAULT 1 COMMENT '是否有效 1有效 0无效',
   `role` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `username`(`username` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user

@@ -103,63 +103,38 @@
 					<!-- 评分详情 -->
 					<view class="review-categories">
 						<view class="category-section">
-							<view class="category-title">技术评审</view>
-							
-							<view class="score-section">
-								<text class="section-name">技术可行性</text>
-								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.technicalFeasibilityScore / 20) * 100}%`}"></view>
-								</view>
-								<text class="section-score">{{selectedExpert.technicalFeasibilityScore || 0}}分/20分</text>
-							</view>
-							
-							<view class="score-section">
-								<text class="section-name">创新性</text>
-								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.innovationScore / 15) * 100}%`}"></view>
-								</view>
-								<text class="section-score">{{selectedExpert.innovationScore || 0}}分/15分</text>
-							</view>
-							
-							<view class="score-section">
-								<text class="section-name">成熟度</text>
-								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.maturityScore / 15) * 100}%`}"></view>
-								</view>
-								<text class="section-score">{{selectedExpert.maturityScore || 0}}分/15分</text>
-							</view>
-							
-							<view class="category-comment" v-if="selectedExpert.technicalRemarks">
-								<text class="comment-label">技术评审备注：</text>
-								<text class="comment-content">{{selectedExpert.technicalRemarks}}</text>
-							</view>
-						</view>
-						
-						<view class="category-section">
 							<view class="category-title">商务评审</view>
 							
 							<view class="score-section">
-								<text class="section-name">预算合理性</text>
+								<text class="section-name">企业资质</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.budgetReasonabilityScore / 15) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(selectedExpert.enterpriseQualificationScore / 10) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{selectedExpert.budgetReasonabilityScore || 0}}分/15分</text>
+								<text class="section-score">{{selectedExpert.enterpriseQualificationScore || 0}}分/10分</text>
 							</view>
 							
 							<view class="score-section">
-								<text class="section-name">成本效益</text>
+								<text class="section-name">财务情况</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.costBenefitScore / 15) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(selectedExpert.financialStatusScore / 5) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{selectedExpert.costBenefitScore || 0}}分/15分</text>
+								<text class="section-score">{{selectedExpert.financialStatusScore || 0}}分/5分</text>
 							</view>
 							
 							<view class="score-section">
-								<text class="section-name">合同条款</text>
+								<text class="section-name">业绩案例</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.contractTermsScore / 10) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(selectedExpert.performanceCaseScore / 10) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{selectedExpert.contractTermsScore || 0}}分/10分</text>
+								<text class="section-score">{{selectedExpert.performanceCaseScore || 0}}分/10分</text>
+							</view>
+							
+							<view class="score-section">
+								<text class="section-name">履约能力</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(selectedExpert.performanceCapabilityScore / 5) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{selectedExpert.performanceCapabilityScore || 0}}分/5分</text>
 							</view>
 							
 							<view class="category-comment" v-if="selectedExpert.businessRemarks">
@@ -169,27 +144,60 @@
 						</view>
 						
 						<view class="category-section">
-							<view class="category-title">风险与合规评审</view>
+							<view class="category-title">技术评审</view>
 							
 							<view class="score-section">
-								<text class="section-name">风险识别</text>
+								<text class="section-name">技术方案响应性</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.riskIdentificationScore / 10) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(selectedExpert.technicalResponseScore / 10) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{selectedExpert.riskIdentificationScore || 0}}分/10分</text>
+								<text class="section-score">{{selectedExpert.technicalResponseScore || 0}}分/10分</text>
 							</view>
 							
 							<view class="score-section">
-								<text class="section-name">合规性</text>
+								<text class="section-name">实施方案</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(selectedExpert.complianceScore / 10) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(selectedExpert.implementationPlanScore / 15) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{selectedExpert.complianceScore || 0}}分/10分</text>
+								<text class="section-score">{{selectedExpert.implementationPlanScore || 0}}分/15分</text>
 							</view>
 							
-							<view class="category-comment" v-if="selectedExpert.riskComplianceRemarks">
-								<text class="comment-label">风险与合规评审备注：</text>
-								<text class="comment-content">{{selectedExpert.riskComplianceRemarks}}</text>
+							<view class="score-section">
+								<text class="section-name">质量保障措施</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(selectedExpert.qualityAssuranceScore / 10) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{selectedExpert.qualityAssuranceScore || 0}}分/10分</text>
+							</view>
+							
+							<view class="score-section">
+								<text class="section-name">售后服务</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(selectedExpert.afterSaleServiceScore / 5) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{selectedExpert.afterSaleServiceScore || 0}}分/5分</text>
+							</view>
+							
+							<view class="category-comment" v-if="selectedExpert.technicalRemarks">
+								<text class="comment-label">技术评审备注：</text>
+								<text class="comment-content">{{selectedExpert.technicalRemarks}}</text>
+							</view>
+						</view>
+						
+						<view class="category-section">
+							<view class="category-title">价格评审</view>
+							
+							<view class="score-section">
+								<text class="section-name">价格评分</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(selectedExpert.priceScore / 30) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{selectedExpert.priceScore || 0}}分/30分</text>
+							</view>
+							
+							<view class="category-comment" v-if="selectedExpert.priceRemarks">
+								<text class="comment-label">价格评审备注：</text>
+								<text class="comment-content">{{selectedExpert.priceRemarks}}</text>
 							</view>
 						</view>
 					</view>
@@ -207,80 +215,86 @@
 					<!-- 评分详情 -->
 					<view class="review-categories">
 						<view class="category-section">
-							<view class="category-title">技术评审</view>
-							
-							<view class="score-section">
-								<text class="section-name">技术可行性</text>
-								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.technicalFeasibilityScore / 20) * 100}%`}"></view>
-								</view>
-								<text class="section-score">{{summaryResult.technicalFeasibilityScore || 0}}分/20分</text>
-							</view>
-							
-							<view class="score-section">
-								<text class="section-name">创新性</text>
-								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.innovationScore / 15) * 100}%`}"></view>
-								</view>
-								<text class="section-score">{{summaryResult.innovationScore || 0}}分/15分</text>
-							</view>
-							
-							<view class="score-section">
-								<text class="section-name">成熟度</text>
-								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.maturityScore / 15) * 100}%`}"></view>
-								</view>
-								<text class="section-score">{{summaryResult.maturityScore || 0}}分/15分</text>
-							</view>
-							
-						</view>
-						
-						<view class="category-section">
 							<view class="category-title">商务评审</view>
 							
 							<view class="score-section">
-								<text class="section-name">预算合理性</text>
+								<text class="section-name">企业资质</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.budgetReasonabilityScore / 15) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(summaryResult.enterpriseQualificationScore / 10) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{summaryResult.budgetReasonabilityScore || 0}}分/15分</text>
+								<text class="section-score">{{summaryResult.enterpriseQualificationScore || 0}}分/10分</text>
 							</view>
 							
 							<view class="score-section">
-								<text class="section-name">成本效益</text>
+								<text class="section-name">财务情况</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.costBenefitScore / 15) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(summaryResult.financialStatusScore / 5) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{summaryResult.costBenefitScore || 0}}分/15分</text>
+								<text class="section-score">{{summaryResult.financialStatusScore || 0}}分/5分</text>
 							</view>
 							
 							<view class="score-section">
-								<text class="section-name">合同条款</text>
+								<text class="section-name">业绩案例</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.contractTermsScore / 10) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(summaryResult.performanceCaseScore / 10) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{summaryResult.contractTermsScore || 0}}分/10分</text>
+								<text class="section-score">{{summaryResult.performanceCaseScore || 0}}分/10分</text>
 							</view>
 							
+							<view class="score-section">
+								<text class="section-name">履约能力</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(summaryResult.performanceCapabilityScore / 5) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{summaryResult.performanceCapabilityScore || 0}}分/5分</text>
+							</view>
 						</view>
 						
 						<view class="category-section">
-							<view class="category-title">风险与合规评审</view>
+							<view class="category-title">技术评审</view>
 							
 							<view class="score-section">
-								<text class="section-name">风险识别</text>
+								<text class="section-name">技术方案响应性</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.riskIdentificationScore / 10) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(summaryResult.technicalResponseScore / 10) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{summaryResult.riskIdentificationScore || 0}}分/10分</text>
+								<text class="section-score">{{summaryResult.technicalResponseScore || 0}}分/10分</text>
 							</view>
 							
 							<view class="score-section">
-								<text class="section-name">合规性</text>
+								<text class="section-name">实施方案</text>
 								<view class="progress-bar">
-									<view class="progress-inner" :style="{width: `${(summaryResult.complianceScore / 10) * 100}%`}"></view>
+									<view class="progress-inner" :style="{width: `${(summaryResult.implementationPlanScore / 15) * 100}%`}"></view>
 								</view>
-								<text class="section-score">{{summaryResult.complianceScore || 0}}分/10分</text>
+								<text class="section-score">{{summaryResult.implementationPlanScore || 0}}分/15分</text>
+							</view>
+							
+							<view class="score-section">
+								<text class="section-name">质量保障措施</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(summaryResult.qualityAssuranceScore / 10) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{summaryResult.qualityAssuranceScore || 0}}分/10分</text>
+							</view>
+							
+							<view class="score-section">
+								<text class="section-name">售后服务</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(summaryResult.afterSaleServiceScore / 5) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{summaryResult.afterSaleServiceScore || 0}}分/5分</text>
+							</view>
+						</view>
+						
+						<view class="category-section">
+							<view class="category-title">价格评审</view>
+							
+							<view class="score-section">
+								<text class="section-name">价格评分</text>
+								<view class="progress-bar">
+									<view class="progress-inner" :style="{width: `${(summaryResult.priceScore / 30) * 100}%`}"></view>
+								</view>
+								<text class="section-score">{{summaryResult.priceScore || 0}}分/30分</text>
 							</view>
 						</view>
 					</view>
@@ -381,14 +395,18 @@
 						
 						// 计算总分
 						const totalScore = (
-							(review.technicalFeasibilityScore || 0) +
-							(review.innovationScore || 0) +
-							(review.maturityScore || 0) +
-							(review.budgetReasonabilityScore || 0) +
-							(review.costBenefitScore || 0) +
-							(review.contractTermsScore || 0) +
-							(review.riskIdentificationScore || 0) +
-							(review.complianceScore || 0)
+							// 商务评审
+							(review.enterpriseQualificationScore || 0) +
+							(review.financialStatusScore || 0) +
+							(review.performanceCaseScore || 0) +
+							(review.performanceCapabilityScore || 0) +
+							// 技术评审
+							(review.technicalResponseScore || 0) +
+							(review.implementationPlanScore || 0) +
+							(review.qualityAssuranceScore || 0) +
+							(review.afterSaleServiceScore || 0) +
+							// 价格分
+							(review.priceScore || 0)
 						);
 						
 						return {

@@ -117,160 +117,208 @@
     <a-modal
       v-model:open="reviewFormVisible"
       title="专家评审"
-      width="800px"
+      width="900px"
+      :footer="null"
     >
       <div class="review-form">
-        <div class="review-section">
-          <div class="section-title">技术评审</div>
-          <div class="form-item">
-            <div class="label">技术可行性 (20分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.technicalFeasibilityScore" 
-                :min="0" 
-                :max="20" 
-                :step="1" 
-                :marks="{ 0: '0', 10: '10', 20: '20' }" 
-              />
+        <a-steps class="review-steps" v-model:current="currentStep" direction="vertical">
+          <a-step title="商务评审" :description="getStepDescription(0)" />
+          <a-step title="技术评审" :description="getStepDescription(1)" />
+          <a-step title="价格分" :description="getStepDescription(2)" />
+          <a-step title="总分" :description="getStepDescription(3)" />
+        </a-steps>
+        
+        <div class="review-content">
+          <!-- 商务评审 -->
+          <div v-if="currentStep === 0" class="step-content">
+            <div class="form-item">
+              <div class="label">企业资质 (10分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.enterpriseQualificationScore" 
+                  :min="0" 
+                  :max="10" 
+                  :step="1" 
+                  :marks="{ 0: '0', 5: '5', 10: '10' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">财务情况 (5分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.financialStatusScore" 
+                  :min="0" 
+                  :max="5" 
+                  :step="1" 
+                  :marks="{ 0: '0', 3: '3', 5: '5' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">业绩案例 (10分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.performanceCaseScore" 
+                  :min="0" 
+                  :max="10" 
+                  :step="1" 
+                  :marks="{ 0: '0', 5: '5', 10: '10' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">履约能力 (5分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.performanceCapabilityScore" 
+                  :min="0" 
+                  :max="5" 
+                  :step="1" 
+                  :marks="{ 0: '0', 3: '3', 5: '5' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">备注</div>
+              <div class="content">
+                <a-textarea 
+                  v-model:value="reviewForm.businessRemarks" 
+                  placeholder="请输入商务评审备注" 
+                  :auto-size="{ minRows: 2, maxRows: 6 }" 
+                />
+              </div>
             </div>
           </div>
-          <div class="form-item">
-            <div class="label">创新性 (15分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.innovationScore" 
-                :min="0" 
-                :max="15" 
-                :step="1" 
-                :marks="{ 0: '0', 8: '8', 15: '15' }" 
-              />
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="label">成熟度 (15分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.maturityScore" 
-                :min="0" 
-                :max="15" 
-                :step="1" 
-                :marks="{ 0: '0', 8: '8', 15: '15' }" 
-              />
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="label">备注</div>
-            <div class="content">
-              <a-textarea 
-                v-model:value="reviewForm.technicalRemarks" 
-                placeholder="请输入技术评审备注" 
-                :auto-size="{ minRows: 2, maxRows: 6 }" 
-              />
-            </div>
-          </div>
-        </div>
 
-        <div class="review-section">
-          <div class="section-title">商务评审</div>
-          <div class="form-item">
-            <div class="label">预算合理性 (15分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.budgetReasonabilityScore" 
-                :min="0" 
-                :max="15" 
-                :step="1" 
-                :marks="{ 0: '0', 8: '8', 15: '15' }" 
-              />
+          <!-- 技术评审 -->
+          <div v-if="currentStep === 1" class="step-content">
+            <div class="form-item">
+              <div class="label">技术方案响应性 (10分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.technicalResponseScore" 
+                  :min="0" 
+                  :max="10" 
+                  :step="1" 
+                  :marks="{ 0: '0', 5: '5', 10: '10' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">实施方案 (15分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.implementationPlanScore" 
+                  :min="0" 
+                  :max="15" 
+                  :step="1" 
+                  :marks="{ 0: '0', 8: '8', 15: '15' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">质量保障措施 (10分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.qualityAssuranceScore" 
+                  :min="0" 
+                  :max="10" 
+                  :step="1" 
+                  :marks="{ 0: '0', 5: '5', 10: '10' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">售后服务 (5分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.afterSaleServiceScore" 
+                  :min="0" 
+                  :max="5" 
+                  :step="1" 
+                  :marks="{ 0: '0', 3: '3', 5: '5' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">备注</div>
+              <div class="content">
+                <a-textarea 
+                  v-model:value="reviewForm.technicalRemarks" 
+                  placeholder="请输入技术评审备注" 
+                  :auto-size="{ minRows: 2, maxRows: 6 }" 
+                />
+              </div>
             </div>
           </div>
-          <div class="form-item">
-            <div class="label">成本效益 (15分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.costBenefitScore" 
-                :min="0" 
-                :max="15" 
-                :step="1" 
-                :marks="{ 0: '0', 8: '8', 15: '15' }" 
-              />
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="label">合同条款 (10分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.contractTermsScore" 
-                :min="0" 
-                :max="10" 
-                :step="1" 
-                :marks="{ 0: '0', 5: '5', 10: '10' }" 
-              />
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="label">备注</div>
-            <div class="content">
-              <a-textarea 
-                v-model:value="reviewForm.businessRemarks" 
-                placeholder="请输入商务评审备注" 
-                :auto-size="{ minRows: 2, maxRows: 6 }" 
-              />
-            </div>
-          </div>
-        </div>
 
-        <div class="review-section">
-          <div class="section-title">风险与合规评审</div>
-          <div class="form-item">
-            <div class="label">风险识别 (10分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.riskIdentificationScore" 
-                :min="0" 
-                :max="10" 
-                :step="1" 
-                :marks="{ 0: '0', 5: '5', 10: '10' }" 
-              />
+          <!-- 价格分 -->
+          <div v-if="currentStep === 2" class="step-content">
+            <div class="form-item">
+              <div class="label">价格评分 (30分)</div>
+              <div class="content">
+                <a-slider 
+                  v-model:value="reviewForm.priceScore" 
+                  :min="0" 
+                  :max="30" 
+                  :step="1" 
+                  :marks="{ 0: '0', 15: '15', 30: '30' }" 
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <div class="label">备注</div>
+              <div class="content">
+                <a-textarea 
+                  v-model:value="reviewForm.priceRemarks" 
+                  placeholder="请输入价格评审备注" 
+                  :auto-size="{ minRows: 2, maxRows: 6 }" 
+                />
+              </div>
             </div>
           </div>
-          <div class="form-item">
-            <div class="label">合规性 (10分)</div>
-            <div class="content">
-              <a-slider 
-                v-model:value="reviewForm.complianceScore" 
-                :min="0" 
-                :max="10" 
-                :step="1" 
-                :marks="{ 0: '0', 5: '5', 10: '10' }" 
-              />
-            </div>
-          </div>
-          <div class="form-item">
-            <div class="label">备注</div>
-            <div class="content">
-              <a-textarea 
-                v-model:value="reviewForm.riskComplianceRemarks" 
-                placeholder="请输入风险与合规评审备注" 
-                :auto-size="{ minRows: 2, maxRows: 6 }" 
-              />
-            </div>
-          </div>
-        </div>
 
-        <div class="total-score-section">
-          <div class="form-item">
-            <div class="label">总分</div>
-            <div class="content">
-              <a-tag color="blue" class="total-score">{{ calculateTotalScore() }}分</a-tag>
+          <!-- 总分 -->
+          <div v-if="currentStep === 3" class="step-content">
+            <div class="total-score-summary">
+              <h3>评分汇总</h3>
+              <div class="score-item">
+                <span class="score-label">商务评审:</span>
+                <span class="score-value">{{ getBusinessScore() }}分</span>
+              </div>
+              <div class="score-item">
+                <span class="score-label">技术评审:</span>
+                <span class="score-value">{{ getTechnicalScore() }}分</span>
+              </div>
+              <div class="score-item">
+                <span class="score-label">价格分:</span>
+                <span class="score-value">{{ reviewForm.priceScore || 0 }}分</span>
+              </div>
+              <div class="score-item total">
+                <span class="score-label">总分:</span>
+                <span class="score-value">{{ calculateTotalScore() }}分</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <template #footer>
-        <a-button key="back" @click="saveAsDraft">保存草稿</a-button>
-        <a-button key="submit" type="primary" @click="submitReviewForm">提交评审</a-button>
-      </template>
+      
+      <!-- 按钮 -->
+      <div class="steps-action">
+        <a-button v-if="currentStep > 0" @click="prev">上一步</a-button>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <a-button 
+          v-if="currentStep < 3" 
+          type="primary" 
+          @click="next"
+        >
+          下一步
+        </a-button>
+          <a-button v-if="currentStep === 3" @click="saveAsDraft">保存草稿</a-button>
+          <a-button v-if="currentStep === 3" type="primary" @click="submitReviewForm">提交评审</a-button>
+        </div>
+      </div>
     </a-modal>
 
     <!-- 查看评审结果弹窗 -->
@@ -288,19 +336,68 @@
           <a-tag color="blue">{{ reviewDetail.totalScore }}分</a-tag>
         </a-descriptions-item>
 
-        <a-descriptions-item label="技术可行性" :span="1">{{ reviewDetail.technicalFeasibilityScore }}分/20分</a-descriptions-item>
-        <a-descriptions-item label="创新性" :span="1">{{ reviewDetail.innovationScore }}分/15分</a-descriptions-item>
-        <a-descriptions-item label="成熟度" :span="1">{{ reviewDetail.maturityScore }}分/15分</a-descriptions-item>
-        <a-descriptions-item label="技术评审备注" :span="3">{{ reviewDetail.technicalRemarks }}</a-descriptions-item>
+        <a-descriptions-item label="商务评审" :span="3">
+          <div class="review-score-grid">
+            <div class="score-item">
+              <span class="item-label">企业资质:</span>
+              <span class="item-value">{{ reviewDetail.enterpriseQualificationScore || 0 }}分/10分</span>
+            </div>
+            <div class="score-item">
+              <span class="item-label">财务情况:</span>
+              <span class="item-value">{{ reviewDetail.financialStatusScore || 0 }}分/5分</span>
+            </div>
+            <div class="score-item">
+              <span class="item-label">业绩案例:</span>
+              <span class="item-value">{{ reviewDetail.performanceCaseScore || 0 }}分/10分</span>
+            </div>
+            <div class="score-item">
+              <span class="item-label">履约能力:</span>
+              <span class="item-value">{{ reviewDetail.performanceCapabilityScore || 0 }}分/5分</span>
+            </div>
+          </div>
+          <div class="remarks-box" v-if="reviewDetail.businessRemarks">
+            <div class="remarks-title">备注:</div>
+            <div class="remarks-content">{{ reviewDetail.businessRemarks }}</div>
+          </div>
+        </a-descriptions-item>
 
-        <a-descriptions-item label="预算合理性" :span="1">{{ reviewDetail.budgetReasonabilityScore }}分/15分</a-descriptions-item>
-        <a-descriptions-item label="成本效益" :span="1">{{ reviewDetail.costBenefitScore }}分/15分</a-descriptions-item>
-        <a-descriptions-item label="合同条款" :span="1">{{ reviewDetail.contractTermsScore }}分/10分</a-descriptions-item>
-        <a-descriptions-item label="商务评审备注" :span="3">{{ reviewDetail.businessRemarks }}</a-descriptions-item>
+        <a-descriptions-item label="技术评审" :span="3">
+          <div class="review-score-grid">
+            <div class="score-item">
+              <span class="item-label">技术方案响应性:</span>
+              <span class="item-value">{{ reviewDetail.technicalResponseScore || 0 }}分/10分</span>
+            </div>
+            <div class="score-item">
+              <span class="item-label">实施方案:</span>
+              <span class="item-value">{{ reviewDetail.implementationPlanScore || 0 }}分/15分</span>
+            </div>
+            <div class="score-item">
+              <span class="item-label">质量保障措施:</span>
+              <span class="item-value">{{ reviewDetail.qualityAssuranceScore || 0 }}分/10分</span>
+            </div>
+            <div class="score-item">
+              <span class="item-label">售后服务:</span>
+              <span class="item-value">{{ reviewDetail.afterSaleServiceScore || 0 }}分/5分</span>
+            </div>
+          </div>
+          <div class="remarks-box" v-if="reviewDetail.technicalRemarks">
+            <div class="remarks-title">备注:</div>
+            <div class="remarks-content">{{ reviewDetail.technicalRemarks }}</div>
+          </div>
+        </a-descriptions-item>
 
-        <a-descriptions-item label="风险识别" :span="1">{{ reviewDetail.riskIdentificationScore }}分/10分</a-descriptions-item>
-        <a-descriptions-item label="合规性" :span="1">{{ reviewDetail.complianceScore }}分/10分</a-descriptions-item>
-        <a-descriptions-item label="风险与合规评审备注" :span="3">{{ reviewDetail.riskComplianceRemarks }}</a-descriptions-item>
+        <a-descriptions-item label="价格评分" :span="3">
+          <div class="review-score-grid">
+            <div class="score-item">
+              <span class="item-label">价格评分:</span>
+              <span class="item-value">{{ reviewDetail.priceScore || 0 }}分/30分</span>
+            </div>
+          </div>
+          <div class="remarks-box" v-if="reviewDetail.priceRemarks">
+            <div class="remarks-title">备注:</div>
+            <div class="remarks-content">{{ reviewDetail.priceRemarks }}</div>
+          </div>
+        </a-descriptions-item>
 
         <a-descriptions-item label="评审时间" :span="3">{{ reviewDetail.reviewTime }}</a-descriptions-item>
       </a-descriptions>
@@ -368,23 +465,26 @@ const reviewForm = ref({
   assignmentId: null,
   applicationId: null,
   expertId: null,
-  // 技术评审
-  technicalFeasibilityScore: 0,
-  innovationScore: 0,
-  maturityScore: 0,
-  technicalRemarks: '',
   // 商务评审
-  budgetReasonabilityScore: 0,
-  costBenefitScore: 0,
-  contractTermsScore: 0,
+  enterpriseQualificationScore: 0,
+  financialStatusScore: 0,
+  performanceCaseScore: 0,
+  performanceCapabilityScore: 0,
   businessRemarks: '',
-  // 风险与合规评审
-  riskIdentificationScore: 0,
-  complianceScore: 0,
-  riskComplianceRemarks: '',
+  // 技术评审
+  technicalResponseScore: 0,
+  implementationPlanScore: 0,
+  qualityAssuranceScore: 0,
+  afterSaleServiceScore: 0,
+  technicalRemarks: '',
+  // 价格分
+  priceScore: 0,
+  priceRemarks: '',
   // 状态
   status: '0'
 });
+
+const currentStep = ref(0);
 
 onMounted(() => {
   console.log("页面加载，用户信息:", userStore.userInfo);
@@ -553,32 +653,64 @@ const resetReviewForm = () => {
     assignmentId: null,
     applicationId: null,
     expertId: formModel.value.expertId,
-    technicalFeasibilityScore: 0,
-    innovationScore: 0,
-    maturityScore: 0,
-    technicalRemarks: '',
-    budgetReasonabilityScore: 0,
-    costBenefitScore: 0,
-    contractTermsScore: 0,
+    // 商务评审
+    enterpriseQualificationScore: 0,
+    financialStatusScore: 0,
+    performanceCaseScore: 0,
+    performanceCapabilityScore: 0,
     businessRemarks: '',
-    riskIdentificationScore: 0,
-    complianceScore: 0,
-    riskComplianceRemarks: '',
+    // 技术评审
+    technicalResponseScore: 0,
+    implementationPlanScore: 0,
+    qualityAssuranceScore: 0,
+    afterSaleServiceScore: 0,
+    technicalRemarks: '',
+    // 价格分
+    priceScore: 0,
+    priceRemarks: '',
+    // 状态
     status: '0'
   };
 };
 
-const calculateTotalScore = () => {
+const getBusinessScore = () => {
   return (
-    (reviewForm.value.technicalFeasibilityScore || 0) +
-    (reviewForm.value.innovationScore || 0) +
-    (reviewForm.value.maturityScore || 0) +
-    (reviewForm.value.budgetReasonabilityScore || 0) +
-    (reviewForm.value.costBenefitScore || 0) +
-    (reviewForm.value.contractTermsScore || 0) +
-    (reviewForm.value.riskIdentificationScore || 0) +
-    (reviewForm.value.complianceScore || 0)
+    (reviewForm.value.enterpriseQualificationScore || 0) +
+    (reviewForm.value.financialStatusScore || 0) +
+    (reviewForm.value.performanceCaseScore || 0) +
+    (reviewForm.value.performanceCapabilityScore || 0)
   );
+};
+
+const getTechnicalScore = () => {
+  return (
+    (reviewForm.value.technicalResponseScore || 0) +
+    (reviewForm.value.implementationPlanScore || 0) +
+    (reviewForm.value.qualityAssuranceScore || 0) +
+    (reviewForm.value.afterSaleServiceScore || 0)
+  );
+};
+
+const calculateTotalScore = () => {
+  return getTechnicalScore() + getBusinessScore() + (reviewForm.value.priceScore || 0);
+};
+
+const getStepDescription = (step) => {
+  switch (step) {
+    case 0: return `商务评分: ${getBusinessScore()}分`;
+    case 1: return `技术评分: ${getTechnicalScore()}分`;
+    case 2: return `价格分: ${reviewForm.value.priceScore || 0}分`;
+    case 3: return `总分: ${calculateTotalScore()}分`;
+    default: return '';
+  }
+};
+
+const next = () => {
+  currentStep.value++;
+};
+
+const prev = () => {
+  currentStep.value--;
 };
 
 const saveAsDraft = async () => {
@@ -744,28 +876,29 @@ const columns = [
 }
 
 .review-form {
-  max-height: 70vh;
+  display: flex;
+  max-height: 500px;
   overflow-y: auto;
-  padding: 0 10px;
-  margin-bottom: 60px;
-
-}
-
-.review-section {
-  background-color: #fafafa;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 0;
   margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.section-title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e8e8e8;
-  color: #1890ff;
+.review-steps {
+  width: 200px;
+  padding: 20px 15px;
+  border-right: 1px solid #eee;
+}
+
+.review-content {
+  flex: 1;
+  padding: 15px 20px;
+  overflow-y: auto;
+}
+
+.step-content {
+  padding: 10px;
+  background-color: #fafafa;
+  border-radius: 8px;
 }
 
 .form-item {
@@ -787,21 +920,50 @@ const columns = [
   width: 75%;
 }
 
-.total-score-section {
-  padding: 15px;
-  position: absolute;
-  bottom: 5px;
-  right: 50px;
-  width: 100%;
-}
-.total-score-section .form-item {
-  margin-bottom: 0;
+.steps-action {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-top: 1px solid #f0f0f0;
 }
 
-.total-score {
-  font-size: 16px;
+.total-score-summary {
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.total-score-summary h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1890ff;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.score-item.total {
+  margin-top: 15px;
+  padding: 15px 0;
+  border-top: 2px solid #1890ff;
+  border-bottom: none;
   font-weight: bold;
-  padding: 5px 15px;
+  font-size: 16px;
+}
+
+.score-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.score-value {
+  color: #1890ff;
+  font-weight: 500;
 }
 
 .user-info-container {
@@ -860,5 +1022,45 @@ const columns = [
   max-height: 500px;
   overflow-y: auto;
   padding: 0;
+}
+
+.review-score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.score-item {
+  display: flex;
+  align-items: center;
+}
+
+.item-label {
+  min-width: 120px;
+  color: #666;
+}
+
+.item-value {
+  font-weight: 500;
+  color: #1890ff;
+}
+
+.remarks-box {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.remarks-title {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.remarks-content {
+  color: #333;
+  white-space: pre-wrap;
 }
 </style> 
